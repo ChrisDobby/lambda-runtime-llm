@@ -7,7 +7,7 @@ Companion code for the blog post here
 ### Ensure your AWS account number is available
 
 ```
-export AWS_ACCOUNT_NUMBER=<AWS account number>
+export AWS_ACCOUNT_ID=<AWS account number>
 ```
 
 ### Create a new bucket and set the MODEL_BUCKET env var

@@ -7,8 +7,8 @@ fi
 
 export ACCOUNT_ID="${AWS_ACCOUNT_ID}"
 export REPO_REGION="eu-west-1"
-export REPO_NAME="llm-runtime-6"
-export RUNTIME_NAME="llm-runtime-6"
+export REPO_NAME="llm-runtime"
+export RUNTIME_NAME="llm-runtime"
 export RUNTIME_VERSION="v${IMAGE_TAG}"
 
 aws lambda-core create-runtime --name ${RUNTIME_NAME} \
