@@ -1,0 +1,19 @@
+FROM public.ecr.aws/lambda/nodejs:24.2026.11.04.08
+
+ARG OLLAMA_VERSION=
+
+RUN microdnf install -y tar gzip zstd findutils \
+    && curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION=${OLLAMA_VERSION} sh \
+    && rm -rf /usr/local/lib/ollama/cuda_* /tmp/tmp.* \
+    && microdnf clean all
+
+ARG OLLAMA_MODEL=llama3.2:1b
+
+ENV HOME=/tmp \
+    OLLAMA_HOST=127.0.0.1:11434 \
+    OLLAMA_MODELS=/tmp/ollama/models \
+    OLLAMA_MODEL=${OLLAMA_MODEL}
+
+COPY runtime/fetch-model.cjs /usr/local/lib/fetch-model.cjs
+COPY --chmod=755 runtime/wrapper.sh /usr/local/bin/lambda-wrapper.sh
+ENV AWS_LAMBDA_EXEC_WRAPPER=/usr/local/bin/lambda-wrapper.sh

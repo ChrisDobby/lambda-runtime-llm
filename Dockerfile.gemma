@@ -1,0 +1,22 @@
+FROM public.ecr.aws/lambda/nodejs:24.2026.11.04.08
+
+# Pin with --build-arg OLLAMA_VERSION=x.y.z; empty installs the latest release
+ARG OLLAMA_VERSION=
+
+RUN microdnf install -y tar gzip zstd findutils \
+    && curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION=${OLLAMA_VERSION} sh \
+    && rm -rf /usr/local/lib/ollama/cuda_* /tmp/tmp.* \
+    && microdnf clean all
+
+ARG OLLAMA_MODEL=gemma:2b
+# The model is too big to bake into a runtime image: the wrapper downloads it
+# from s3://$MODEL_BUCKET/models/$OLLAMA_MODEL/ into /tmp at cold start.
+# MODEL_BUCKET is set on the function, not here.
+ENV HOME=/tmp \
+    OLLAMA_HOST=127.0.0.1:11434 \
+    OLLAMA_MODELS=/tmp/ollama/models \
+    OLLAMA_MODEL=${OLLAMA_MODEL}
+
+COPY runtime/fetch-model.cjs /usr/local/lib/fetch-model.cjs
+COPY --chmod=755 runtime/wrapper.sh /usr/local/bin/lambda-wrapper.sh
+ENV AWS_LAMBDA_EXEC_WRAPPER=/usr/local/bin/lambda-wrapper.sh
