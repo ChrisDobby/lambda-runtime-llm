@@ -5,7 +5,7 @@ if [ -z "${RUNTIME_VERSION}" ]; then
   exit 1
 fi
 
-export RUNTIME_NAME="llm-runtime-6"
+export RUNTIME_NAME="llm-runtime"
 export RUNTIME_ALIAS="production"
 
 aws lambda-core get-runtime-version --runtime-name ${RUNTIME_NAME} \

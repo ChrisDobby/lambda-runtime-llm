@@ -7,7 +7,7 @@ fi
 
 export ACCOUNT_ID="${AWS_ACCOUNT_ID}"
 export REPO_REGION="eu-west-1"
-export REPO_NAME="llm-runtime-6"
+export REPO_NAME="llm-runtime"
 
 aws ecr create-repository --repository-name ${REPO_NAME} --region ${REPO_REGION} > /dev/null
 
