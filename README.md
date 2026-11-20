@@ -1,6 +1,6 @@
 # A look at Customer Managed Runtimes. Let's run an LLM...
 
-Companion code for the blog post here
+Companion code for the blog post [here](https://chrisdobby.dev/a-look-at-customer-managed-runtimes-lets-run-an-llm-c32b88d93bf8)
 
 ## Steps
 
